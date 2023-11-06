@@ -1,5 +1,35 @@
 PRAGMA foreign_keys=on; -- Turns foreign key support in SQLite3 on
--- Your code here
+DROP TABLE IF EXISTS owners;
+DROP TABLE IF EXISTS cats;
+DROP TABLE IF EXISTS cat_owners;
+DROP TABLE IF EXISTS toys;
+
+CREATE TABLE owners (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  first_name VARCHAR (40),
+  last_name VARCHAR (40)
+);
+
+CREATE TABLE cats (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR (40),
+  birth_year NUMERIC (4,0)
+);
+
+CREATE TABLE cat_owners (
+  cat_id INTEGER,
+  owner_id INTEGER,
+  FOREIGN KEY (cat_id) REFERENCES cats(id) ON DELETE CASCADE,
+  FOREIGN KEY (owner_id) REFERENCES owners(id) ON DELETE CASCADE
+);
+
+CREATE TABLE toys (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  cat_id INTEGER,
+  name VARCHAR (40),
+  FOREIGN KEY (cat_id) REFERENCES cats(id) ON DELETE CASCADE
+);
+
 
 INSERT INTO owners
   (first_name, last_name)
@@ -50,6 +80,15 @@ VALUES
   (5, 'Crinkle Ball'),
   (7, 'Cheetos'),
   (8, 'Yarn');
+
+
+-- Refactor that code so that when entries in cats or owners are deleted, all the entries
+-- in other tables that depends on it (foreign key relationships) will also be deleted.
+
+-- Do not manipulate the seed data or the last DELETE query already written for you in the file.
+
+-- Test this by running the phase-4.sql file. The file should delete the cat with the name of
+-- "Smudge" and also delete the toys and cat_owners entries that depended on it successfully.
 
 DELETE FROM cats
 WHERE cats.name = 'Smudge';
