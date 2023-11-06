@@ -1,5 +1,34 @@
 PRAGMA foreign_keys=on; -- Turns foreign key support in SQLite3 on
--- Your code here
+DROP TABLE IF EXISTS owners;
+DROP TABLE IF EXISTS cats;
+DROP TABLE IF EXISTS cat_owners;
+DROP TABLE IF EXISTS toys;
+
+CREATE TABLE owners (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  first_name VARCHAR (40),
+  last_name VARCHAR (40)
+);
+
+CREATE TABLE cats (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR (40),
+  birth_year NUMERIC (4,0)
+);
+
+CREATE TABLE cat_owners (
+  cat_id INTEGER,
+  owner_id INTEGER,
+  FOREIGN KEY (cat_id) REFERENCES cats(id),
+  FOREIGN KEY (owner_id) REFERENCES owners(id)
+);
+
+CREATE TABLE toys (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  cat_id INTEGER,
+  name VARCHAR (40),
+  FOREIGN KEY (cat_id) REFERENCES cats(id)
+);
 
 INSERT INTO owners
   (first_name, last_name)
